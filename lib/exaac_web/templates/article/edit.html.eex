@@ -1,0 +1,24 @@
+<h1>Update Article</h1>
+
+<%= if @changeset.action do %>
+  <div class="alert alert-danger">
+    <p>Oops! Something went wrong, please check the errors below.</p>
+  </div>
+<% end %>
+
+<%= form_for @changeset, Routes.article_path(@conn, :update, @current_article.id), fn f -> %>
+  <div class="form-group">
+    <%= label f, :title, "Article Title" %>
+    <%= text_input f, :title, value: @current_article.title, class: "form-control" %>
+    <%= error_tag f, :title %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :content, "Article Content" %>
+    <%= textarea f, :content, value: @current_article.content, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Update" %>
+  </div>
+<% end %>

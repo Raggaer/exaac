@@ -9,3 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Exaac.Articles
+
+Articles.create_with_title_and_content!("Welcome to ExAAC", "Welcome to this amazing Elixir AAC!")

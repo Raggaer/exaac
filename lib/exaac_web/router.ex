@@ -19,6 +19,12 @@ defmodule ExaacWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/admin", ExaacWeb do
+    pipe_through :browser
+
+    resources "/articles", ArticleController, only: [:new, :create, :edit, :update, :delete, :index]
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ExaacWeb do
   #   pipe_through :api

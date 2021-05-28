@@ -7,7 +7,7 @@ use Mix.Config
 # Run `mix help test` for more information.
 config :exaac, Exaac.Repo,
   username: "root",
-  password: "",
+  password: "admin",
   database: "exaac_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

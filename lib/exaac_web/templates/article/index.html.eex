@@ -1,0 +1,21 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Slug</th>
+      <th>Title</th>
+      <th colspan="2">
+        <%= link "Create Article", to: Routes.article_path(@conn, :new), class: "btn btn-primary", role: "button" %>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for article <- @articles do %>
+      <tr>
+        <td><%= article.slug %></td>
+        <td><%= article.title %></td>
+        <td><%= link "Edit", to: Routes.article_path(@conn, :edit, article.id) %></td>
+        <td><%= link "Delete", to: Routes.article_path(@conn, :delete, article.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
