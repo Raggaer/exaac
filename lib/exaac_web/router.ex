@@ -17,6 +17,7 @@ defmodule ExaacWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/register", RegisterController, only: [:new, :create]
   end
 
   scope "/admin", ExaacWeb do
