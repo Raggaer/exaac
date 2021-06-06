@@ -1,0 +1,42 @@
+<h1>Register</h1>
+
+<%= if @changeset.action do %>
+  <div class="alert alert-danger">
+    <p>Oops! Something went wrong, please check the errors below.</p>
+  </div>
+<% end %>
+
+<%= form_for @changeset, Routes.register_path(@conn, :create), fn f -> %>
+  <div class="form-group">
+    <%= label f, :name, "Account Name" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <div class="form-group">
+        <%= label f, :password_plain, "Account Password" %>
+        <%= password_input f, :password_plain, class: "form-control" %>
+        <%= error_tag f, :password_plain %>
+      </div>
+    </div>
+    <div class="column">
+      <div class="form-group">
+        <%= label f, :password_plain_confirmation, "Repeat Password" %>
+        <%= password_input f, :password_plain_confirmation, class: "form-control" %>
+        <%= error_tag f, :password_plain_confirmation %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :email, "Account Email" %>
+    <%= text_input f, :email, class: "form-control" %>
+    <%= error_tag f, :email %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Register" %>
+  </div>
+<% end %>

@@ -16,12 +16,12 @@ defmodule Exaac.ArticlesTest do
   }
 
   describe "create/1" do
-    test "valid data creates article" do
+    test "create article with valid data" do
       assert {:ok, %Article{id: id}} = Articles.create(@valid_attrs)
       assert [%Article{id: ^id}] = Articles.get_all
     end
 
-    test "invalid data fails create article" do
+    test "create article with invalid data" do
       assert {:error, changeset} = Articles.create(@invalid_attrs)
       assert %{title: ["can't be blank"], content: ["can't be blank"]} = errors_on(changeset)
     end
