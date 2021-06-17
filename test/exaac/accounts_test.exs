@@ -1,8 +1,13 @@
 defmodule Exaac.AccountsTest do
   use Exaac.DataCase, async: true
 
+  alias Exaac.Accounts
+
   alias Exaac.Accounts.ServerAccounts
+  alias Exaac.Accounts.WebsiteAccounts
   alias Exaac.Accounts.Account.ServerAccount
+  alias Exaac.Accounts.Account.WebsiteAccount
+  
   alias Exaac.TestHelpers
 
   @valid_attrs %{
@@ -15,7 +20,7 @@ defmodule Exaac.AccountsTest do
   @invalid_attrs %{
     name: "Raggaer",
     email: "admin@exaac.com"
-  }
+  } 
 
   @invalid_password_match %{
     password_plain: "test1234",
@@ -29,9 +34,22 @@ defmodule Exaac.AccountsTest do
     password_plain_confirmation: "test1234",
   }
 
-  @update_attrs %{
-    name: "New Name"
+  @invalid_name %{
+    name: "Invalid Name",
   }
+
+  @update_attrs %{
+    name: "New_Name"
+  }
+
+  describe "create whole account" do
+    test "create account with valid data" do
+      {:ok, %ServerAccount{id: id}} = Accounts.create(@valid_attrs)
+
+      assert [%ServerAccount{id: ^id}] = ServerAccounts.get_all
+      assert [%WebsiteAccount{account_id: ^id}] = WebsiteAccounts.get_all
+    end
+  end
 
   describe "create/1" do
     test "create account with valid data" do
@@ -63,6 +81,12 @@ defmodule Exaac.AccountsTest do
     test "create account invalid email" do
       {:error, changeset} = ServerAccounts.create(@invalid_email)
       assert %{email: ["invalid email address"]} = errors_on(changeset)
+      assert [] = ServerAccounts.get_all
+    end
+
+    test "create account invalid name" do
+      {:error, changeset} = ServerAccounts.create(@invalid_name)
+      assert %{name: ["invalid account name format"]} = errors_on(changeset)
       assert [] = ServerAccounts.get_all
     end
   end

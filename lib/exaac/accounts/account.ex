@@ -1,4 +1,25 @@
 defmodule Exaac.Accounts.Account do 
+  defmodule WebsiteAccount do
+    use Ecto.Schema
+
+    import Ecto.Changeset
+
+    alias Exaac.Accounts
+
+    schema "website_accounts" do
+      #field :account_id, :integer
+
+      belongs_to :accounts, Exaac.Accounts.Account.ServerAccount, [foreign_key: :account_id]
+
+      timestamps()
+    end
+
+    def changeset(account, params) do
+      account
+      |> cast(params, [:account_id])
+    end
+  end
+
   defmodule ServerAccount do
     use Ecto.Schema
 
@@ -13,6 +34,8 @@ defmodule Exaac.Accounts.Account do
       field :password, :string 
       field :email, :string
       field :creation, :integer
+
+      has_one :website_accounts, Exaac.Accounts.Account.WebsiteAccount
     end
 
     def changeset(account, params) do
@@ -25,6 +48,7 @@ defmodule Exaac.Accounts.Account do
       |> unique_constraint(:name, name: :name)
       |> unique_constraint(:email, name: :email)
       |> validate_email
+      |> validate_name
     end
 
     def update_changeset(account, params) do
@@ -61,6 +85,14 @@ defmodule Exaac.Accounts.Account do
     defp hash_password(password) do
       :crypto.hash(:sha, password)
       |> Base.encode16([case: :lower])
+    end
+
+    defp validate_name(changeset) do
+      name = get_field(changeset, :name, "") || ""
+      case String.match?(name, ~r/^[A-Za-z0-9_-]+$/) do
+        false -> add_error(changeset, :name, "invalid account name format")
+        _ -> changeset
+      end
     end
 
     defp validate_email(changeset) do

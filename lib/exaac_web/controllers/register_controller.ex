@@ -1,6 +1,7 @@
 defmodule ExaacWeb.RegisterController do
   use ExaacWeb, :controller
 
+  alias Exaac.Accounts
   alias Exaac.Accounts.ServerAccounts
   alias Exaac.Accounts.Account.ServerAccount
 
@@ -10,7 +11,7 @@ defmodule ExaacWeb.RegisterController do
   end
 
   def create(conn, %{"server_account" => server_account}) do
-    case ServerAccounts.create(server_account) do
+    case Accounts.create(server_account) do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Account created successfully!")
